@@ -96,6 +96,8 @@ int main(int argc, char const *argv[]) {
                 memset(&fileName,0,255);
 
                 char buffer[buffer_size];
+                
+                header[0] = '1';
 
 
 
@@ -104,7 +106,7 @@ int main(int argc, char const *argv[]) {
                         fread(&buffer,1,buffer_size,arq );
                         
                         gettimeofday(&start, NULL);
-                        sendto(server_sock, buffer, buffer_size,0, (struct sockaddr *)&adressClient, sizeof(struct sockaddr_in));
+                        sendto(server_sock, buffer, sizeof(buffer),0, (struct sockaddr *)&adressClient, sizeof(struct sockaddr_in));
                         while (1) {
                                 gettimeofday(&end, NULL);
                                 time_waiting = (float)((((end.tv_sec - start.tv_sec)*1000000.0 + end.tv_usec - start.tv_usec))/1000000.0);
@@ -133,6 +135,8 @@ int main(int argc, char const *argv[]) {
                         }
                 }
                 
+                header[0]='0';
+				sendto(server_sock, header, sizeof(header),0, (struct sockaddr *)&adressClient, sizeof(struct sockaddr_in));
 
                 fclose(arq);
 
@@ -140,3 +144,4 @@ int main(int argc, char const *argv[]) {
 
         return 0;
 }
+
