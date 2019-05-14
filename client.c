@@ -97,18 +97,22 @@ int main(int argc, char const *argv[]) {
                         printf("\n[Cliente] Enviando confirmação... ");
 
                 } while (confirm_send <= 0);
+                
+                //--- Verifica se o arquivo acabou de ser enviado
+                if(buffer[0] == '0'){
+					break;
+				}
 
                 // ESCREVE NO ARQUIVO
                 fprintf(arq, "%s", buffer);
                 printf("\nBytes já tranferidos: %d",num_bytes);
-                num_bytes += sizeof(arq);
-                if(feof(arq)) break;
+                num_bytes += sizeof(buffer)/8;
+                
+
+                
                
         }
 
-
-        num_bytes = sizeof(arq);
-        printf("\nBytes já tranferidos: %d",num_bytes);
 
         fclose(arq);
 
